@@ -1,3 +1,18 @@
+/*$(window).on('load', function () {
+    $('#preloader').fadeOut();
+    if($('.story-p').outerHeight() > '114')
+    {
+        $('.story-p').css('max-height', '114px');
+        $('.story-more').show();
+    }
+    
+    if($('.story-p2').outerHeight() > '60')
+    {
+        $('.story-p2').css('max-height', '60px');
+        $('.story-more2').show();
+    }
+});
+*/
 jQuery(document).ready(function ($) {
   "use strict";
   var wind = $(window);
