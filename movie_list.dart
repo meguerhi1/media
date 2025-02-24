@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieList extends StatelessWidget {
   @override
@@ -21,13 +21,50 @@ class MovieList extends StatelessWidget {
           itemCount: movies.length,
           itemBuilder: (context, index) {
             final movie = movies[index].data() as Map<String, dynamic>;
-            return ListTile(
-              leading: Image.network(movie['poster_url']),
-              title: Text(movie['title']),
-              subtitle: Text(movie['description']),
-              onTap: () {
-                // الانتقال إلى صفحة تفاصيل الفيلم
-              },
+            return Card(
+              margin: EdgeInsets.all(8),
+              child: ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    movie['poster_url'],
+                    width: 50,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                title: Text(movie['title']),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(movie['description']),
+                    SizedBox(height: 4),
+                    RatingBar.builder(
+                      initialRating: movie['rating'],
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 20,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        // تحديث التقييم في قاعدة البيانات
+                      },
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MovieDetailScreen(movie: movie),
+                    ),
+                  );
+                },
+              ),
             );
           },
         );
