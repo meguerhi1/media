@@ -1,39 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:video_player/video_player.dart';
 
-class MovieDetailScreen extends StatelessWidget {
+class MovieDetailScreen extends StatefulWidget {
   final Map<String, dynamic> movie;
 
   MovieDetailScreen({required this.movie});
 
   @override
+  _MovieDetailScreenState createState() => _MovieDetailScreenState();
+}
+
+class _MovieDetailScreenState extends State<MovieDetailScreen> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.movie['video_url'])
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(movie['title']),
+        title: Text(widget.movie['title']),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              movie['poster_url'],
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
-            ),
+            _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(
+                    height: 200,
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie['title'],
+                    widget.movie['title'],
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    movie['description'],
+                    widget.movie['description'],
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16),
@@ -41,7 +66,7 @@ class MovieDetailScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.calendar_today, size: 16),
                       SizedBox(width: 8),
-                      Text('سنة الإصدار: ${movie['release_year']}'),
+                      Text('سنة الإصدار: ${widget.movie['release_year']}'),
                     ],
                   ),
                   SizedBox(height: 8),
@@ -49,31 +74,21 @@ class MovieDetailScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.category, size: 16),
                       SizedBox(width: 8),
-                      Text('النوع: ${movie['genre']}'),
+                      Text('النوع: ${widget.movie['genre']}'),
                     ],
-                  ),
-                  SizedBox(height: 16),
-                  RatingBar.builder(
-                    initialRating: movie['rating'],
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemSize: 30,
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      // تحديث التقييم في قاعدة البيانات
-                    },
                   ),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      // إضافة الفيلم إلى المفضلة
+                      setState(() {
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
                     },
-                    child: Text('إضافة إلى المفضلة'),
+                    child: Icon(
+                      _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                    ),
                   ),
                 ],
               ),
@@ -84,3 +99,5 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 }
+
+
