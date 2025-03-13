@@ -1,216 +1,32 @@
- 
-  /* التصميم العام */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #1e1e2f; /* لون خلفية داكن */
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    text-align: right;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-header {
-    background-color: #2a2a40;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* ������� iframe */
+.iframe-container {
     position: fixed;
-    width: 100%;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
 }
 
-header .logo {
-    display: flex;
-    align-items: center;
-}
-
-header .logo img {
-    width: 40px;
-    height: 40px;
-    margin-left: 10px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-#toggleSidebar {
-    background: none;
+.iframe-container iframe {
+    width: 80%;
+    height: 80%;
     border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-aside {
-    background-color: #2a2a40;
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 70px;
-    right: -250px;
-    transition: right 0.3s ease;
-    padding: 20px;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
-aside.active {
-    right: 0;
-}
-
-.search-box {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.search-box input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 10px;
-}
-
-.search-box button {
-    background-color: #ff6f61;
-    border: none;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    margin: 15px 0;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-main {
-    margin-top: 70px;
-    padding: 20px;
-}
-
-.hero {
-    background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
-    color: #fff;
-    padding: 100px 0;
-    text-align: center;
-}
-
-.hero h2 {
-    font-size: 2.5rem;
-    margin: 0;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin: 10px 0 20px;
-}
-
-.btn {
-    background-color: #ff6f61;
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.categories {
-    padding: 50px 0;
-}
-
-.categories h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-}
-
-.category-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.category {
-    background-color: #3a3a5a;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: calc(25% - 40px);
-    text-align: center;
-    transition: transform 0.3s ease;
 }
 
-.category:hover {
-    transform: translateY(-10px);
-}
-
-.category h3 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.category p {
-    font-size: 1rem;
-    color: #ccc;
-}
-
-footer {
-    background-color: #2a2a40;
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #ff6f61;
     color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
-
-footer .social-links {
-    margin-top: 10px;
-}
-
-footer .social-links a {
-    color: #fff;
-    margin: 0 10px;
-    font-size: 1.2rem;
-}
-
-/* تجاوبية */
-@media (max-width: 768px) {
-    .category {
-        width: calc(50% - 40px);
-    }
-
-    aside {
-        width: 200px;
-        right: -200px;
-    }
-
-    aside.active {
-        right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .category {
-        width: 100%;
-    }
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
